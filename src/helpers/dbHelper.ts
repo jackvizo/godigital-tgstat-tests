@@ -19,3 +19,10 @@ export const connectDB = async () => {
 export const disconnectDB = async () => {
   await client.end();
 };
+
+export const truncate = async () => {
+  // Очищаем таблицы перед заполнением
+  await client.query("TRUNCATE TABLE stat_user RESTART IDENTITY CASCADE");
+  await client.query("TRUNCATE TABLE stat_post RESTART IDENTITY CASCADE");
+  await client.query("TRUNCATE TABLE stat_reaction RESTART IDENTITY CASCADE");
+};

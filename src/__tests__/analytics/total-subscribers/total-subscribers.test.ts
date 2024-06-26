@@ -1,4 +1,4 @@
-import { connectDB, disconnectDB, client } from "@/helpers/dbHelper";
+import { connectDB, disconnectDB, client, truncate } from "@/helpers/dbHelper";
 import { seedDB } from "./seed";
 
 const getActiveSubscribersCount = async (channelIds: number[]): Promise<number> => {
@@ -36,10 +36,12 @@ const getActiveSubscribersCount = async (channelIds: number[]): Promise<number> 
 
 beforeAll(async () => {
   await connectDB();
+  await truncate();
   await seedDB();
 });
 
 afterAll(async () => {
+  await truncate();
   await disconnectDB();
 });
 

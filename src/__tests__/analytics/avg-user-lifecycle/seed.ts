@@ -30,7 +30,7 @@ function generateInsertStrings(
     .join(", ");
 }
 
-export const seedDB = async (): Promise<void> => {
+export const seedDB = async (expectedAvgLifecycleDays: number): Promise<void> => {
   try {
     // Очищаем таблицы перед заполнением
     await client.query("TRUNCATE TABLE stat_user RESTART IDENTITY CASCADE");
@@ -45,13 +45,13 @@ export const seedDB = async (): Promise<void> => {
     // Генерация начальных дат для пользователей, которые остались в системе
     const notLeftUsers1 = Array(100)
       .fill(0)
-      .map((_, i) => ({ start: new Date("2023-01-01"), end: null }));
+      .map((_, i) => ({ start: new Date(`2023-01-${(i % 28) + 1}`), end: null }));
     const notLeftUsers2 = Array(300)
       .fill(0)
-      .map((_, i) => ({ start: new Date("2023-01-01"), end: null }));
+      .map((_, i) => ({ start: new Date(`2023-01-${(i % 28) + 1}`), end: null }));
     const notLeftUsers3 = Array(200)
       .fill(0)
-      .map((_, i) => ({ start: new Date("2023-01-01"), end: null }));
+      .map((_, i) => ({ start: new Date(`2023-01-${(i % 28) + 1}`), end: null }));
 
     // Преобразование интервалов в формат дат
     const startDate = new Date("2023-01-01");
@@ -101,5 +101,4 @@ export const seedDB = async (): Promise<void> => {
   - Канал 1002: треть пользователей
   - Канал 1003: треть пользователей
 - Средний цикл жизни пользователя рассчитывается для пользователей, имеющих непустое значение left_at
-- Ожидаемое значение среднего времени жизни: 5.5 дней
 */
